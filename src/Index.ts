@@ -6,11 +6,13 @@ import pokemonRoutes from './routes/PokemonRoutes';
 import commentRoutes from './routes/commentRoutes';
 import cors from 'cors';
 import http from 'http';
+import { initializeWebSocketServer } from './websocket';
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+const wss = initializeWebSocketServer(server);
 
 const PORT = process.env.PORT || 5000;
 
@@ -23,5 +25,6 @@ app.use('/api/comments', commentRoutes);
 connectDB();
 
 server.listen(PORT, () => {
-  console.log(Server running on http://localhost:${PORT});
-})
+  console.log(`Server running on http://localhost:${PORT}`);
+  console.log('WebSocket server running');
+});
